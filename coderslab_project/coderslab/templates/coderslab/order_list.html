@@ -1,0 +1,19 @@
+{% extends "coderslab/base.html" %}
+{% block content %}
+    <h2>Your orders</h2>
+    {% for order in pipe_order %}
+        <table border="1px" style="color:#333333" border="0">
+            <tr>
+                <td width="200px" style="background-color:#cbd5db"><a href="order_detail/{{order.id}}"><strong> Order ID: </strong> <p>{{order.id}}</p></a></td>
+                <td width="200px" style="background-color:#fafafa"><strong> Pipe size: </strong> <p>{{order.size_sch}}</p></td>
+                <td width="200px" style="background-color:#cbd5db"><strong> Pipe WT: </strong><p>{{order.wall_thk_mm}}</p></td>
+                <td width="200px" style="background-color:#fafafa"><strong> Material: </strong> <p>{{order.material}}</p></td>
+                <td width="200px" style="background-color:#cbd5db"><strong> Length: </strong> <p>{{order.length}}</p></td>
+                <td width="200px" style="background-color:#fafafa"><strong> Quantity: </strong> <p>{{order.quantity}}</p></td>
+            </tr>
+        </table>
+    {%endfor%}
+{% endblock content %}
+
+
+<!--hidden = true-->

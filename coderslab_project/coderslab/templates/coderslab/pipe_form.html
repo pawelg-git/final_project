@@ -1,0 +1,125 @@
+{% extends "coderslab/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <form  method="POST">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td width="50%">
+                    {{pipeform|crispy}}
+                </td>
+            </tr>
+        </table>
+        <div>
+
+        </div>
+        <div id="form-container">
+        {{branch_formset.management_form}}
+        {% for branch_form in branch_formset %}
+        <div class="branch-form">
+              <table border="0" margin-left="100">
+              <tr>
+                  <th id="branch_number" width="30">1</th>
+<!--                <th>{{ branch_form.position.label_tag }}</th>-->
+                <th>{{ branch_form.position|as_crispy_field }}</th>
+<!--                  <th>{{ branch_form.position.errors }}</th>-->
+                  <th width="25"></th>
+<!--                  <th>{{ branch_form.angle.label_tag }}</th>-->
+                <th>{{ branch_form.angle|as_crispy_field }}</th>
+<!--                  <th>{{ branch_form.angle.errors }}</th>-->
+                  <th width="25"></th>
+<!--                  <th>{{ branch_form.size.label_tag }}</th>-->
+                <th>{{ branch_form.size|as_crispy_field }}</th>
+<!--                  <th>{{ branch_form.size.errors }}</th>-->
+              </tr>
+          </table>
+<!--        {{branch_form.as_table}}-->
+        </div>
+        {% endfor %}
+        <button class="btn btn-secondary btn-sm mt-1 mb-1" id="add-form" type="button">Add Branch</button>
+        <button class="btn btn-secondary btn-sm mt-1 mb-1" id="remove-form" type="button">Remove Branch</button>
+        <button class="btn btn-secondary btn-sm mt-1 mb-1" type="submit">Submit</button>
+        </div>
+    </form>
+
+    <div class="container" style="margin-left: 30px;">
+        {% for error in list_of_errors %}
+        <h1>{{error.error}}</h1>
+        {% endfor %}
+    </div>
+
+    <script>
+        let branchForm = document.querySelectorAll(".branch-form")
+        let container = document.querySelector("#form-container")
+        let addButton = document.querySelector("#add-form")
+        let removeButton = document.querySelector("#remove-form")
+        let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+        let idRow = document.querySelectorAll("#branch_number")
+
+        for (i = 0; i < idRow.length; ++i) {
+                idRow[i].innerText = i+1;
+                }
+
+        let formNum = branchForm.length-1 //Get the number of the last form on the page with zero-based indexing
+        addButton.addEventListener('click', addForm)
+        // removeButton.disabled = true
+        if (formNum<1) {
+            removeButton.disabled = true
+        }
+
+
+        function addForm(e){
+            e.preventDefault()
+
+            let newForm = branchForm[0].cloneNode(true) //Clone the bird form
+            let formRegex = RegExp(`form-(\\d){1}-`,'g') //Regex to find all instances of the form number
+
+
+
+            formNum++ //Increment the form number
+            newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`) //Update the new form to have the correct form number
+            newForm.querySelector("#branch_number").innerHTML = formNum+1
+            container.insertBefore(newForm, addButton) //Insert the new form at the end of the list of forms
+
+            totalForms.setAttribute('value', `${formNum+1}`) //Increment the number of total forms in the form management
+            // idRow[idRow.length-1].innerText = formNum+1
+
+
+
+            console.log(idRow)
+
+        removeButton.disabled = false
+        if (formNum>5) {
+            addButton.disabled = true
+        }
+
+
+        }
+
+        removeButton.addEventListener('click', removeForm)
+
+        function removeForm(e){
+            e.preventDefault()
+
+            let branchFormList = document.querySelectorAll(".branch-form")
+            branchFormList[branchFormList.length-1].remove()
+            formNum-- //Decrement the form number
+            totalForms.setAttribute('value', `${formNum+1}`) //Decrement the number of total forms in the form management
+            // console.log(document.querySelector("#id_form-TOTAL_FORMS"))
+
+            console.log(formNum)
+
+        addButton.disabled = false
+        if (formNum<1) {
+            removeButton.disabled = true
+        }
+
+        }
+
+
+
+
+
+    </script>
+
+{% endblock %}
