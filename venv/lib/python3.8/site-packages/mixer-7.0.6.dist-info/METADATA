@@ -1,0 +1,28 @@
+Metadata-Version: 2.1
+Name: mixer
+Version: 7.0.6
+Summary: Mixer -- Is a fixtures replacement. Supported Django ORM, SqlAlchemy ORM, Mongoengine ODM and custom python objects.
+Requires-Dist: Faker (==4.0.0)
+
+Home-page: https://github.com/klen/mixer
+Author: Kirill Klenov
+Author-email: horneds@gmail.com
+License: BSD
+Project-URL: Documentation, https://mixer.readthedocs.org
+Project-URL: Source code, https://github.com/klen/mixer
+Project-URL: Issue tracker, https://github.com/klen/mixer
+Description: UNKNOWN
+Keywords: django,flask,sqlalchemy,testing,mock,stub,mongoengine,data
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License,
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: Utilities
+Requires-Python: >=3.7

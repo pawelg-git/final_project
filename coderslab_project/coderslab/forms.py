@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 from django.forms import modelformset_factory
 from .models import Branch, PipeOrder, MATERIAL, SIZE, WALL_THK
 import math
@@ -28,6 +29,13 @@ class BranchForm(forms.BaseFormSet):
             "size",
             "angle"
         ]
+
+    #
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     position = cleaned_data["position"]
+    #     print(position)
+
 
 
 BranchFormSet = modelformset_factory(

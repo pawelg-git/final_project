@@ -1,7 +1,8 @@
 from django.urls import path
 from . import views as coderslab_views
 from django.contrib.auth import views as auth_views
-from django.contrib.auth.decorators import login_required, permission_required
+
+
 
 urlpatterns = [
     path('', coderslab_views.HomeView.as_view(), name="coderslab-home"),

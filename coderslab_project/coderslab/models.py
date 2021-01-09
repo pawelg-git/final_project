@@ -1,9 +1,6 @@
-from datetime import date, datetime
-
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.contrib.auth.models import User
-import math
 
 
 SIZE = (
@@ -54,6 +51,7 @@ class Branch(models.Model):
     position = models.IntegerField()
     size = models.FloatField()
     angle = models.FloatField(validators=[MaxValueValidator(360), MinValueValidator(0)])
+
 
 
 
