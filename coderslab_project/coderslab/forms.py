@@ -17,7 +17,7 @@ class PipeOrderForm(forms.ModelForm):
     class Meta:
         model = PipeOrder
         # fields = "__all__"
-        exclude = ['customer']
+        exclude = ['customer','price']
 
 
 class BranchForm(forms.BaseFormSet):

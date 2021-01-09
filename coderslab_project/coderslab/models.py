@@ -30,6 +30,7 @@ class PipeOrder(models.Model):
     material = models.CharField(choices=MATERIAL, max_length=6)
     length = models.IntegerField(validators=[MaxValueValidator(6000), MinValueValidator(50)])
     quantity = models.IntegerField(validators=[MaxValueValidator(9999), MinValueValidator(1)])
+    price = models.FloatField()
 
     @property
     def wall_thk_mm(self):

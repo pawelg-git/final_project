@@ -9,9 +9,9 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-# pipe sizes dict
-pipe_diameters = {'DN100': 101.6, 'DN80': 76.2, 'DN50': 50.8, 'DN25': 25.4}
-
+# # pipe sizes dict
+# pipe_diameters = {'DN100': 101.6, 'DN80': 76.2, 'DN50': 50.8, 'DN25': 25.4}
+#
 
 # list of orders view
 class OrderListView(LoginRequiredMixin, TemplateView):
@@ -85,6 +85,8 @@ class PipeConfiguratorView(LoginRequiredMixin, TemplateView):
         # Check if submitted forms are valid
         if branch_formset.is_valid() and pipeform.is_valid():
             size = request.POST.get('size')
+            wall_thk = request.POST.get('wall_thk')
+            qty = request.POST.get('quantity')
             length = float(request.POST.get('length'))
             positions = []
             branch_sizes = []
@@ -99,6 +101,11 @@ class PipeConfiguratorView(LoginRequiredMixin, TemplateView):
 
             # create branches list
             list_of_branches = list(zip(branch_id, positions, angles, branch_sizes))
+
+            print(list_of_branches)
+
+            # price
+            price = calculate_price(length, size, qty, wall_thk, list_of_branches)
 
             # get pipe OD
             pipe_diameter = float(size)
@@ -138,6 +145,8 @@ class PipeConfiguratorView(LoginRequiredMixin, TemplateView):
                         name = str(i) + str(k)
                         list_of_errors.append(
                             {'error': check_branch_pair(list_of_branches[i], list_of_branches[k], pipe_diameter)})
+
+            # if there are any errors show them
             if len(list_of_errors) > 0:
                 return self.render_to_response(
                     {'branch_formset': branch_formset, 'pipeform': pipeform, 'list_of_errors': list_of_errors})
@@ -146,6 +155,7 @@ class PipeConfiguratorView(LoginRequiredMixin, TemplateView):
             pipe_order = pipeform.save(commit=False)
             # get user
             pipe_order.customer = self.request.user
+            pipe_order.price = price
             # save pipeorderform commit=True
             pipe_order.save()
             # saving branch forms
@@ -246,3 +256,25 @@ def check_branch_pair(branch_a, branch_b, pipe_diameter):
             return f'Branch {branch_a[0]} and branch {branch_b[0]} overlap'
         return None
     return None
+
+
+def calculate_price(length, size, qty, wall_thk, list_of_branches):
+    pipe_diameters_dict = {'101.6': 110, '76.2': 80, '50.8': 50, '25.4': 40}
+    wall_thk_dict = {'3.2': 1.4, '2.0': 1.2, '1.6': 1, '0.9': 0.8}
+    qty = int(qty)
+    pipes_form_one_length = math.floor(6000/length)
+    full_lengths =math.ceil(qty / pipes_form_one_length)
+    # price for pipe
+    price = full_lengths * pipe_diameters_dict[size] * wall_thk_dict[wall_thk]
+    # add branch price
+    for branch in list_of_branches:
+        if 0 < branch[3] <= 25:
+            price = price + 20
+        elif 25 < branch[3] <= 50:
+            price = price + 30
+        elif 50 < branch[3] <= 75:
+            price = price + 30
+    price = price * qty
+
+    return price
+

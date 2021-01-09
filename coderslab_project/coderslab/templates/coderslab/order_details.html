@@ -9,15 +9,16 @@
                 <td width="200px" style="background-color:#fafafa"><strong> Material: </strong> <p>{{pipe_order.material}}</p></td>
                 <td width="200px" style="background-color:#cbd5db"><strong> Length: </strong> <p>{{pipe_order.length}}</p></td>
                 <td width="200px" style="background-color:#fafafa"><strong> Quantity: </strong> <p>{{pipe_order.quantity}}</p></td>
+                <td width="200px" style="background-color:#fafafa"><strong> Price: </strong> <p>{{pipe_order.price}}$</p></td>
             </tr>
         </table>
 
     {% for branch in branches %}
         <table border="1px" style="color:#333333; padding-top: 30px" border="0">
             <tr>
-                <td width="400px" style="background-color:#cbd5db"><strong> Position: </strong><p>{{branch.position}}</p></td>
-                <td width="400px" style="background-color:#fafafa"><strong> Size: </strong> <p>{{branch.size}}</p></td>
-                <td width="400px" style="background-color:#fafafa"><strong> Angle: </strong> <p>{{branch.angle}}</p></td>
+                <td width="350px" style="background-color:#cbd5db"><strong> Position: </strong><p>{{branch.position}}</p></td>
+                <td width="350px" style="background-color:#fafafa"><strong> Size: </strong> <p>{{branch.size}}</p></td>
+                <td width="350px" style="background-color:#fafafa"><strong> Angle: </strong> <p>{{branch.angle}}</p></td>
             </tr>
         </table>
     {%endfor%}
